@@ -1,6 +1,7 @@
 package persi.makeboard.board.dto;
 
 import lombok.*;
+import persi.makeboard.board.domain.Board;
 
 import java.time.LocalDateTime;
 
@@ -20,4 +21,16 @@ public class BoardDto {
     private LocalDateTime boardCreatedTime;
     private LocalDateTime boardUpdatedTime;
 
+    public static BoardDto toBoardDto(Board board){
+        BoardDto boardDto = new BoardDto();
+        boardDto.setId(board.getId());
+        boardDto.setBoardWriter(board.getBoardWriter());
+        boardDto.setBoardPass(board.getBoardPass());
+        boardDto.setBoardTitle(board.getBoardTitle());
+        boardDto.setBoardContents(board.getBoardContents());
+        boardDto.setBoardHits(board.getBoardHits());
+        boardDto.setBoardCreatedTime(board.getCreatedTime());
+        boardDto.setBoardUpdatedTime(board.getUpdateTime());
+        return boardDto;
+    }
 }
