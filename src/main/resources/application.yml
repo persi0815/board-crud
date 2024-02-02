@@ -1,0 +1,34 @@
+
+# default profile settings
+spring:
+  profiles:
+    active: local
+springdoc:
+  swagger-ui:
+    path: /swagger
+
+---
+
+# local profile
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: ${local.db.url}
+    username: ${local.db.username}
+    password: ${local.db.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+        hbm2ddl:
+          auto: create
+        default_batch_fetch_size: 1000
