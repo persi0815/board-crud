@@ -36,4 +36,15 @@ public class BoardController {
         model.addAttribute("boardList", boardDtoList);
         return "list";
     }
+
+    // 게시글 상세 조회
+    @GetMapping("/{id}")
+    public String findById(@PathVariable Long id, Model model) { // 경로상에 있는 값 가져올땐 PathVariable사용
+        // 해당 게시글의 조회수를 하나 올리기
+        boardService.updateHits(id);
+        // 게시글 데이터를 가져와서 detail.html에 출력
+        BoardDto boardDto = boardService.findById(id);
+        model.addAttribute("board", boardDto);
+        return "detail";
+    }
 }
