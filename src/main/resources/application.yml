@@ -14,14 +14,22 @@ spring:
   config:
     activate:
       on-profile: local
+
+  # database 연동 설정
   datasource:
     url: ${local.db.url}
     username: ${local.db.username}
     password: ${local.db.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  thymeleaf:
+    cache: false
+
   sql:
     init:
       mode: never
+
+  # spring data jpa 설정
   jpa:
     properties:
       hibernate:
@@ -32,3 +40,7 @@ spring:
         hbm2ddl:
           auto: create
         default_batch_fetch_size: 1000
+
+# 서버 포트 설정
+server:
+  port: 8082
