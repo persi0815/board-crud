@@ -15,11 +15,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
+
+    // 게시물 작성
     public void save(BoardDto boardDto) {
         Board board = Board.toSaveEntity(boardDto);
         boardRepository.save(board);
     }
 
+    // 게시물 목록 조회
     public List<BoardDto> findAll() {
         List<Board> boardList = boardRepository.findAll();
         List<BoardDto> boardDtoList = new ArrayList<>();

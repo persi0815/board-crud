@@ -19,12 +19,16 @@ public class BoardController {
     public String saveForm() {
         return "save";
     }
+
+    // 게시물 작성
     @PostMapping("/save")
     public String save(@ModelAttribute BoardDto boardDto) {
         System.out.println("boardDto = " + boardDto);
         boardService.save(boardDto);
         return "index";
     }
+
+    // 게시물 목록 조회
     @GetMapping("/")
     public String findAll(Model model){ //데이터를 가져올때 model 객체 사용
         // DB에서 전체 게시글 데이터를 가져와서 list.html에 보여준다
