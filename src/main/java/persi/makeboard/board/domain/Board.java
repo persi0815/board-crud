@@ -41,4 +41,15 @@ public class Board extends BaseEntity {
         board.setBoardHits(0);
         return board;
     }
+
+    public static Board toUpdateEntity(BoardDto boardDto) {
+        Board board = new Board();
+        board.setId(boardDto.getId()); // ID가 있어야만 업데이트 쿼리가 전달될 수 있음
+        board.setBoardWriter(boardDto.getBoardWriter());
+        board.setBoardPass(boardDto.getBoardPass());
+        board.setBoardTitle(boardDto.getBoardTitle());
+        board.setBoardContents(boardDto.getBoardContents());
+        board.setBoardHits(boardDto.getBoardHits()); // 조회수 가져오기
+        return board;
+    }
 }

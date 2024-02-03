@@ -49,4 +49,15 @@ public class BoardService {
             return boardDto;
         } else return null;
     }
+
+    // 게시물 수정
+    public BoardDto update(BoardDto boardDto) {
+        Board board = Board.toUpdateEntity(boardDto);
+        boardRepository.save(board);
+        return findById(boardDto.getId());
+    }
+
+    public void delete(Long id) {
+        boardRepository.deleteById(id);
+    }
 }
