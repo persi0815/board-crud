@@ -1,6 +1,9 @@
 package persi.makeboard.board.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,12 +42,13 @@ public class BoardController {
 
     // 게시글 상세 조회
     @GetMapping("/{id}")
-    public String findById(@PathVariable Long id, Model model) { // 경로상에 있는 값 가져올땐 PathVariable사용
+    public String findById(@PathVariable Long id, Model model, @PageableDefault(page=1) Pageable pageable) { // 경로상에 있는 값 가져올땐 PathVariable사용
         // 해당 게시글의 조회수를 하나 올리기
         boardService.updateHits(id);
         // 게시글 데이터를 가져와서 detail.html에 출력
         BoardDto boardDto = boardService.findById(id);
         model.addAttribute("board", boardDto);
+        model.addAttribute("page", pageable.getPageNumber());
         return "detail";
     }
 
@@ -70,6 +74,21 @@ public class BoardController {
     public String delete(@PathVariable Long id){
         boardService.delete(id);
         return "redirect:/board/"; // 띄어쓰기 하면 안됨
+    }
+
+    // 페이징
+    @GetMapping("/paging") // 기본적으로 1페이지 보여줌
+    public String paging(@PageableDefault(page = 1) Pageable pageable, Model model){
+        Page<BoardDto> boardList = boardService.paging(pageable);
+
+        int blockLimit = 3; // 보여지는 페이지 번호 개수
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
+        int endPage = Math.min((startPage + blockLimit - 1), boardList.getTotalPages()); // 3 6 9 ~~
+
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        return "paging";
     }
 
 }
