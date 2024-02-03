@@ -64,4 +64,12 @@ public class BoardController {
         return "detail"; //수정 반영된 객체 가지고 화면에 띄움
         //return "redirect: /board/" + boardDto.getId(); // 상세 페이지 요청을 위한 리다이렉트
     }
+
+    // 게시글 삭제
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        boardService.delete(id);
+        return "redirect:/board/"; // 띄어쓰기 하면 안됨
+    }
+
 }
