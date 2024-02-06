@@ -7,6 +7,9 @@ import lombok.Setter;
 import persi.makeboard.board.dto.BoardDto;
 import persi.makeboard.global.entity.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -31,6 +34,12 @@ public class Board extends BaseEntity {
     @Column
     private int boardHits;
 
+    @Column
+    private int fileAttached; // 1 or 0
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY) // 게시물 삭제시 파일도 사라짐
+    private List<BoardFileEntity> boardFileEntityList = new ArrayList<>(); // file 여러개 -> list형태로 가져옴
+
     public static Board toSaveEntity(BoardDto boardDto){
         // Dto에 담겨져 온 값들을 Entity 객체로 옮겨담는 작업
         Board board = new Board();
@@ -39,6 +48,7 @@ public class Board extends BaseEntity {
         board.setBoardTitle(boardDto.getBoardTitle());
         board.setBoardContents(boardDto.getBoardContents());
         board.setBoardHits(0);
+        board.setFileAttached(0); // 파일 없음
         return board;
     }
 
