@@ -9,7 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import persi.makeboard.board.domain.Board;
+import persi.makeboard.board.domain.BoardFileEntity;
 import persi.makeboard.board.dto.BoardDto;
+import persi.makeboard.board.repository.BoardFileRepository;
 import persi.makeboard.board.repository.BoardRepository;
 
 import java.io.File;
@@ -24,6 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final BoardFileRepository boardFileRepository;
 
     // 게시물 작성
     public void save(BoardDto boardDto) throws IOException {
@@ -50,6 +53,12 @@ public class BoardService {
             String savePath = "C:/Users/양지원/OneDrive/바탕 화면/springboot_img/" + storedFileName; //4. C:/Users/양지원/OneDrive/바탕 화면/springboot_img//338493020_내사진.jpg
             boardFile.transferTo(new File(savePath)); // 5.
 
+            Board boardEntity = Board.toSaveFileEntity(boardDto); // 6.
+            Long savedId = boardRepository.save(boardEntity).getId();
+
+            Board board = boardRepository.findById(savedId).get(); // 7.
+            BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);
+            boardFileRepository.save(boardFileEntity);
 
 
         }

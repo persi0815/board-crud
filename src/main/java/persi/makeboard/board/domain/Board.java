@@ -62,4 +62,15 @@ public class Board extends BaseEntity {
         board.setBoardHits(boardDto.getBoardHits()); // 조회수 가져오기
         return board;
     }
+
+    public static Board toSaveFileEntity(BoardDto boardDto) {
+        Board board = new Board();
+        board.setBoardWriter(boardDto.getBoardWriter());
+        board.setBoardPass(boardDto.getBoardPass());
+        board.setBoardTitle(boardDto.getBoardTitle());
+        board.setBoardContents(boardDto.getBoardContents());
+        board.setBoardHits(0);
+        board.setFileAttached(1); // 파일 있음
+        return board;
+    }
 }

@@ -24,4 +24,11 @@ public class BoardFileEntity extends BaseEntity {
     @JoinColumn(name = "board_id") // db에 들어가는 column 이름
     private Board board;
 
+    public static BoardFileEntity toBoardFileEntity(Board board, String originalFileName, String storedFileName) {
+        BoardFileEntity boardFileEntity = new BoardFileEntity();
+        boardFileEntity.setOriginalFileName(originalFileName);
+        boardFileEntity.setStoredFileName(storedFileName);
+        boardFileEntity.setBoard(board); // 부모 엔티티를 넣어줘야함
+        return boardFileEntity;
+    }
 }
