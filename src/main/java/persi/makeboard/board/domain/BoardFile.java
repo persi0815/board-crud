@@ -9,7 +9,7 @@ import persi.makeboard.global.entity.BaseEntity;
 @Getter
 @Setter
 @Table(name = "board_file_table")
-public class BoardFileEntity extends BaseEntity {
+public class BoardFile extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,11 +24,11 @@ public class BoardFileEntity extends BaseEntity {
     @JoinColumn(name = "board_id") // db에 들어가는 column 이름
     private Board board;
 
-    public static BoardFileEntity toBoardFileEntity(Board board, String originalFileName, String storedFileName) {
-        BoardFileEntity boardFileEntity = new BoardFileEntity();
-        boardFileEntity.setOriginalFileName(originalFileName);
-        boardFileEntity.setStoredFileName(storedFileName);
-        boardFileEntity.setBoard(board); // 부모 엔티티를 넣어줘야함
-        return boardFileEntity;
+    public static BoardFile toBoardFileEntity(Board board, String originalFileName, String storedFileName) {
+        BoardFile boardFile = new BoardFile();
+        boardFile.setOriginalFileName(originalFileName);
+        boardFile.setStoredFileName(storedFileName);
+        boardFile.setBoard(board); // 부모 엔티티를 넣어줘야함
+        return boardFile;
     }
 }

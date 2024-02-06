@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import persi.makeboard.board.domain.Board;
-import persi.makeboard.board.domain.BoardFileEntity;
+import persi.makeboard.board.domain.BoardFile;
 import persi.makeboard.board.dto.BoardDto;
 import persi.makeboard.board.repository.BoardFileRepository;
 import persi.makeboard.board.repository.BoardRepository;
@@ -57,13 +57,14 @@ public class BoardService {
             Long savedId = boardRepository.save(boardEntity).getId();
 
             Board board = boardRepository.findById(savedId).get(); // 7.
-            BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);
+            BoardFile boardFileEntity = BoardFile.toBoardFileEntity(board, originalFilename, storedFileName);
             boardFileRepository.save(boardFileEntity);
 
 
         }
     }
 
+    @Transactional
     // 게시물 목록 조회
     public List<BoardDto> findAll() {
         List<Board> boardList = boardRepository.findAll();
@@ -80,6 +81,7 @@ public class BoardService {
         boardRepository.updateHits(id);
     }
 
+    @Transactional
     // id로 게시물 데이터 찾기
     public BoardDto findById(Long id) {
         Optional<Board> optionalBoard = boardRepository.findById(id);

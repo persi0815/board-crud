@@ -1,7 +1,6 @@
 package persi.makeboard.board.domain;
 
 import jakarta.persistence.*;
-import lombok.CustomLog;
 import lombok.Getter;
 import lombok.Setter;
 import persi.makeboard.board.dto.BoardDto;
@@ -38,7 +37,7 @@ public class Board extends BaseEntity {
     private int fileAttached; // 1 or 0
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY) // 게시물 삭제시 파일도 사라짐
-    private List<BoardFileEntity> boardFileEntityList = new ArrayList<>(); // file 여러개 -> list형태로 가져옴
+    private List<BoardFile> boardFileList = new ArrayList<>(); // file 여러개 -> list형태로 가져옴
 
     public static Board toSaveEntity(BoardDto boardDto){
         // Dto에 담겨져 온 값들을 Entity 객체로 옮겨담는 작업
