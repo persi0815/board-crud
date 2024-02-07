@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import persi.makeboard.board.dto.BoardDto;
+import persi.makeboard.board.dto.CommentDto;
 import persi.makeboard.board.service.BoardService;
+import persi.makeboard.board.service.CommentService;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequestMapping("/board")
 public class BoardController {
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/save")
     public String saveForm() {
@@ -48,6 +51,10 @@ public class BoardController {
         boardService.updateHits(id);
         // 게시글 데이터를 가져와서 detail.html에 출력
         BoardDto boardDto = boardService.findById(id);
+        // 댓글 목록 가져오기
+        List<CommentDto> commentDtoList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDtoList);
+
         model.addAttribute("board", boardDto);
         model.addAttribute("page", pageable.getPageNumber());
         return "detail";
