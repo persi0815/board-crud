@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import persi.makeboard.board.dto.BoardDto;
+import persi.makeboard.board.dto.CommentDto;
 import persi.makeboard.global.entity.BaseEntity;
 
 import java.util.ArrayList;
@@ -38,6 +39,9 @@ public class Board extends BaseEntity {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY) // 게시물 삭제시 파일도 사라짐
     private List<BoardFile> boardFileList = new ArrayList<>(); // file 여러개 -> list형태로 가져옴
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY) // 게시물 삭제시 댓글도 사라짐
+    private List<Comment> commentList = new ArrayList<>();
 
     public static Board toSaveEntity(BoardDto boardDto){
         // Dto에 담겨져 온 값들을 Entity 객체로 옮겨담는 작업
